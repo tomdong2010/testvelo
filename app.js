@@ -48,7 +48,7 @@ app.get("/newaccount",function(req, res) {
 
 });
 
-app.get("/drs/setup",function(req, res) {
+app.get("/heart/setGovernor",function(req, res) {
     var accounts = web3.eth.accounts;
     var account = accounts.decrypt(keystore, "123456");
 
@@ -60,23 +60,24 @@ app.get("/drs/setup",function(req, res) {
         from:account.address
     })
     //调用智能合约方法
-    const method =  contract.methods.setGovernor("0x0d9730ae524a6370761898e0b2b41a76d7cc4159");
+    const method =  contract.methods.setGovernor("0xa6c3fa2b65e57cff91418fe349d470808f9ee23f");
     contractExecute(web3, account, contract, method)
         .then( (r)=>{
             console.log('success', r);
-            process.exit(0);
+            // 发送响应数据
+            contract.methods.isGovernor("0xa6c3fa2b65e57cff91418fe349d470808f9ee23f").call().then(function (result) {
+                // 发送响应数据
+                res.send(result);
+
+            });
+
         })
         .catch( (e)=>{
             console.log('error', e);
-            process.exit(1);
+
         })
 
-    // 发送响应数据
-    contract.methods.isGovernor("0x0d9730ae524a6370761898e0b2b41a76d7cc4159").call().then(function (result) {
-        // 发送响应数据
-        res.send(result);
 
-    });
 
 });
 
