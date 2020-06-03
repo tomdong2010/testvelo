@@ -160,7 +160,30 @@ app.get("/drs/setup",function(req, res) {
 
 
 });
+app.get("/drs/redeem",function(req, res) {
+    var accounts = web3.eth.accounts;
+    var account = accounts.decrypt(keystore2, "123456");
 
+    var abi = [{"inputs":[{"internalType":"address","name":"heartAddr","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"assetCode","type":"string"},{"indexed":false,"internalType":"uint256","name":"mintAmount","type":"uint256"},{"indexed":true,"internalType":"address","name":"assetAddress","type":"address"},{"indexed":true,"internalType":"bytes32","name":"collateralAssetCode","type":"bytes32"},{"indexed":false,"internalType":"uint256","name":"collateralAmount","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"assetCode","type":"string"},{"indexed":true,"internalType":"bytes32","name":"collateralAssetCode","type":"bytes32"},{"indexed":false,"internalType":"uint256","name":"requiredAmount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"presentAmount","type":"uint256"}],"name":"Rebalance","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"assetCode","type":"string"},{"indexed":false,"internalType":"uint256","name":"stableCreditAmount","type":"uint256"},{"indexed":true,"internalType":"address","name":"collateralAssetAddress","type":"address"},{"indexed":true,"internalType":"bytes32","name":"collateralAssetCode","type":"bytes32"},{"indexed":false,"internalType":"uint256","name":"collateralAmount","type":"uint256"}],"name":"Redeem","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"assetCode","type":"string"},{"indexed":false,"internalType":"bytes32","name":"peggedCurrency","type":"bytes32"},{"indexed":false,"internalType":"uint256","name":"peggedValue","type":"uint256"},{"indexed":true,"internalType":"bytes32","name":"collateralAssetCode","type":"bytes32"},{"indexed":false,"internalType":"address","name":"assetAddress","type":"address"}],"name":"Setup","type":"event"},{"constant":true,"inputs":[],"name":"heart","outputs":[{"internalType":"contract IHeart","name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"internalType":"bytes32","name":"collateralAssetCode","type":"bytes32"},{"internalType":"bytes32","name":"peggedCurrency","type":"bytes32"},{"internalType":"string","name":"assetCode","type":"string"},{"internalType":"uint256","name":"peggedValue","type":"uint256"}],"name":"setup","outputs":[{"internalType":"string","name":"","type":"string"},{"internalType":"address","name":"","type":"address"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"netCollateralAmount","type":"uint256"},{"internalType":"string","name":"assetCode","type":"string"}],"name":"mintFromCollateralAmount","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"mintAmount","type":"uint256"},{"internalType":"string","name":"assetCode","type":"string"}],"name":"mintFromStableCreditAmount","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":false,"inputs":[{"internalType":"uint256","name":"stableCreditAmount","type":"uint256"},{"internalType":"string","name":"assetCode","type":"string"}],"name":"redeem","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"internalType":"string","name":"assetCode","type":"string"}],"name":"rebalance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"internalType":"string","name":"assetCode","type":"string"}],"name":"getExchange","outputs":[{"internalType":"string","name":"","type":"string"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"internalType":"string","name":"assetCode","type":"string"}],"name":"collateralHealthCheck","outputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"bytes32","name":"","type":"bytes32"},{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"uint256","name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"}]
+    // 合约地址
+    var address = "0x7be625bbff8EE109dAc2680cC71f2167cb741e59";
+    // 通过ABI和地址获取已部署的合约对象
+    var contract =new web3.eth.Contract(abi,address,{
+        from:account.address
+    })
+    //调用智能合约方法
+   contract.methods.redeem(
+       2000000000, "vTHB"
+    ).call().then(function (result) {
+       // 发送响应数据
+       res.send(result);
+
+   });
+
+
+
+
+});
 
 
 function sendEth(web3, fromAccount, toAddress, eth_amount) {

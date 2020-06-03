@@ -23,5 +23,13 @@ npm run start
 /heart/setTrustedPartner
 ```
 ### Test  DigitalReserveSystem.sol
+1.test redeem
+```
+/drs/redee
+```
+2.test setup  
+```
+/drs/setup
+```
 
 
