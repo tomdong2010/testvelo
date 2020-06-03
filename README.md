@@ -12,8 +12,16 @@ cd  testvelo
 npm install
 npm run start
 ```
-### test velo Heart.sol
+### Test velo Heart.sol
 1. test setGovernor  isGovernor
 ```
 /heart/setGovernor
 ```
+
+2. test setTrustedPartner  isTrustedPartner
+```
+/heart/setTrustedPartner
+```
+### Test  DigitalReserveSystem.sol
+
+
