@@ -10,6 +10,7 @@ var net=require("net")
 var keythereum = require("keythereum");
 
 var keystore = require('./0x8714d1ab13d0243ade8d7804fec611e1c0b32db5.json');;
+var keystore2 = require('./0xa6c3fa2b65e57cff91418fe349d470808f9ee23f.json');;
 
 var web3;
 if (typeof web3 !== 'undefined') {
