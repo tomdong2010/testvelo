@@ -25,7 +25,7 @@ npm run start
 ### Test  DigitalReserveSystem.sol
 1.test redeem
 ```
-/drs/redee
+/drs/redeem
 ```
 2.test setup  
 ```
